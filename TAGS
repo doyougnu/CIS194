@@ -1,0 +1,11 @@
+
+./hw_1.hs,258
+lastDigit lastDigit0,1
+dropLastDigit dropLastDigit2,3
+toRevDigits toRevDigits4,5
+doubleEveryOther doubleEveryOther7,8
+doubleEveryOther doubleEveryOther8,9
+sumDigits sumDigits13,14
+sumDigits sumDigits14,15
+luhn luhn20,21
+  | y `mod`mod22,23
