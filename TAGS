@@ -1,16 +1,5 @@
 
-./hw_1.hs,258
-lastDigit lastDigit0,1
-dropLastDigit dropLastDigit2,3
-toRevDigits toRevDigits4,5
-doubleEveryOther doubleEveryOther7,8
-doubleEveryOther doubleEveryOther8,9
-sumDigits sumDigits13,14
-sumDigits sumDigits14,15
-luhn luhn20,21
-  | y `mod`mod22,23
-
-./hw_2.hs,988
+c:/Users/B50852/Documents/Programming/Haskell/CIS194/hw_2.hs,1054
 module HW02 HW021,2
 data Peg Peg6,7
 data Peg = Red Red6,7
@@ -32,15 +21,28 @@ countColors countColors36,37
 countColors countColors37,38
 matches matches42,43
 matches matches43,44
-getMove getMove48,49
-getMove getMove49,50
-isConsistent isConsistent53,54
-isConsistent isConsistent54,55
-filterCodes filterCodes58,59
-filterCodes filterCodes59,60
-allCodes allCodes63,64
-allCodes allCodes64,65
-solve solve68,69
-solve solve69,70
-fiveGuess fiveGuess73,74
-fiveGuess fiveGuess74,75
+getMove getMove50,51
+getMove getMove51,52
+isConsistent isConsistent55,56
+isConsistent isConsistent56,57
+filterCodes filterCodes60,61
+filterCodes filterCodes61,62
+combinations combinations64,65
+combinations combinations65,66
+allCodes allCodes69,70
+allCodes allCodes70,71
+solve solve74,75
+solve solve75,76
+fiveGuess fiveGuess79,80
+fiveGuess fiveGuess80,81
+
+c:/Users/B50852/Documents/Programming/Haskell/CIS194/hw_1.hs,258
+lastDigit lastDigit0,1
+dropLastDigit dropLastDigit2,3
+toRevDigits toRevDigits4,5
+doubleEveryOther doubleEveryOther7,8
+doubleEveryOther doubleEveryOther8,9
+sumDigits sumDigits13,14
+sumDigits sumDigits14,15
+luhn luhn20,21
+  | y `mod`mod22,23
