@@ -1,5 +1,16 @@
 
-c:/Users/B50852/Documents/Programming/Haskell/CIS194/hw_2.hs,1054
+./hw_1.hs,258
+lastDigit lastDigit0,1
+dropLastDigit dropLastDigit2,3
+toRevDigits toRevDigits4,5
+doubleEveryOther doubleEveryOther7,8
+doubleEveryOther doubleEveryOther8,9
+sumDigits sumDigits13,14
+sumDigits sumDigits14,15
+luhn luhn20,21
+  | y `mod`mod22,23
+
+./hw_2.hs,1054
 module HW02 HW021,2
 data Peg Peg6,7
 data Peg = Red Red6,7
@@ -33,16 +44,5 @@ allCodes allCodes69,70
 allCodes allCodes70,71
 solve solve74,75
 solve solve75,76
-fiveGuess fiveGuess79,80
-fiveGuess fiveGuess80,81
-
-c:/Users/B50852/Documents/Programming/Haskell/CIS194/hw_1.hs,258
-lastDigit lastDigit0,1
-dropLastDigit dropLastDigit2,3
-toRevDigits toRevDigits4,5
-doubleEveryOther doubleEveryOther7,8
-doubleEveryOther doubleEveryOther8,9
-sumDigits sumDigits13,14
-sumDigits sumDigits14,15
-luhn luhn20,21
-  | y `mod`mod22,23
+fiveGuess fiveGuess83,84
+fiveGuess fiveGuess84,85

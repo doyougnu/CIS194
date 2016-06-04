@@ -73,7 +73,11 @@ allCodes x = combinations x colors
 -- Exercise 7 -----------------------------------------
 
 solve :: Code -> [Move]
-solve = undefined
+solve code = helper . allCodes $ length code
+  where
+    helper [] = []
+    helper (x:xs) = let nextmove = getMove code x
+                        in nextmove : helper (filterCodes nextmove xs)
 
 -- Bonus ----------------------------------------------
 
