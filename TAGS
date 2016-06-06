@@ -46,3 +46,33 @@ sumDigits sumDigits13,14
 sumDigits sumDigits14,15
 luhn luhn20,21
   | y `mod`mod22,23
+
+c:/Users/B50852/Documents/Programming/Haskell/CIS194/HW3\Log.hs,746
+module Log Log2,3
+data MessageType MessageType8,9
+data MessageType = InfoInfo8,9
+                 | WarningWarning9,10
+                 | Error Error10,11
+type TimeStamp TimeStamp14,15
+data LogMessage LogMessage16,17
+data LogMessage = LogMessage LogMessage16,17
+data MaybeLogMessage MaybeLogMessage19,20
+data MaybeLogMessage = ValidLM ValidLM19,20
+                     | InvalidLM InvalidLM20,21
+data MaybeInt MaybeInt23,24
+data MaybeInt = ValidInt ValidInt23,24
+              | InvalidIntInvalidInt24,25
+samplelog samplelog27,28
+readInt readInt34,35
+readInt readInt35,36
+testParse testParse41,42
+testParse testParse45,46
+testWhatWentWrong testWhatWentWrong52,53
+testWhatWentWrong testWhatWentWrong56,57
+
+c:/Users/B50852/Documents/Programming/Haskell/CIS194/HW3\hw3.hs,151
+module LogAnalysis LogAnalysis1,2
+readAsInt readAsInt6,7
+readAsInt readAsInt7,8
+parseMessage parseMessage9,10
+parseMessage parseMessage10,11
