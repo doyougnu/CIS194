@@ -27,3 +27,7 @@ validMessagesOnly (x:xs) = filterValid x
   where
     filterValid (ValidLM y) = y : validMessagesOnly xs
     filterValid _ = validMessagesOnly xs
+
+------------------Exercise 3----------------------------------------------------
+parse :: String -> [LogMessage]
+parse x = validMessagesOnly . map parseMessage $ lines x
