@@ -19,3 +19,11 @@ parseMessage str = par (words str)
                                 (unwords $ drop 2 xs))
           | otherwise = InvalidLM (unwords xs)
         par [] = InvalidLM "empty input"
+
+------------------Exercise 2----------------------------------------------------
+validMessagesOnly :: [MaybeLogMessage] -> [LogMessage]
+validMessagesOnly [] = []
+validMessagesOnly (x:xs) = filterValid x
+  where
+    filterValid (ValidLM y) = y : validMessagesOnly xs
+    filterValid _ = validMessagesOnly xs

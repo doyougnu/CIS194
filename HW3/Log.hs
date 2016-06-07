@@ -25,7 +25,7 @@ data MaybeInt = ValidInt Int
               | InvalidInt
   deriving (Show, Eq)
 
-samplelog = "I 6 Completed armadillo processing\nI 1 Nothing to report\nI 4 Everything normal\nI 11 Initiating self-destruct sequence\nE 70 3 Way too many pickles\nE 65 8 Bad pickle-flange interaction detected\nW 5 Flange is due for a check-up\nI 7 Out for lunch, back in two time steps\nE 20 2 Too many pickles\nI 9 Back from lunch\nE 99 10 Flange failed!\n"
+samplelog = "I 6 Completed armadillo processing\nI 1 Nothing to report\nI 4 Everything normal\nI 11 Initiating self-destruct sequence\nE 70 3 Way too many pickles\nE 65 8 Bad pickle-flange interaction detected\nW 5 Flange is due for a check-up\nI 7 Out for lunch, back in two time steps\nE 20 2 Too many pickles\nI 9 Back from lunch\nE 99 10 Flange failed!\nThis is not the right format\nagain this should be invalid\n"
 
 -- The functions below will be useful while completing the assignment, but
 -- you are not expected to understand their details at this point.
