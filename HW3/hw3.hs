@@ -2,6 +2,7 @@
 module LogAnalysis where
 
 import Log
+import Data.List ( sortBy )
 
 ---------- Exercise 1 ----------------------------------
 readAsInt :: String -> Int
@@ -38,3 +39,8 @@ compareMsgs (LogMessage _ a _) (LogMessage _ b _)
   | a < b = LT
   | a > b = GT
   | otherwise = EQ
+
+------------------Exercise 5----------------------------------------------------
+sortMessages :: [LogMessage] -> [LogMessage]
+sortMessages [] = []
+sortMessages x = sortBy compareMsgs x
