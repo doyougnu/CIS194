@@ -31,3 +31,10 @@ validMessagesOnly (x:xs) = filterValid x
 ------------------Exercise 3----------------------------------------------------
 parse :: String -> [LogMessage]
 parse x = validMessagesOnly . map parseMessage $ lines x
+
+------------------Exercise 4----------------------------------------------------
+compareMsgs :: LogMessage -> LogMessage -> Ordering
+compareMsgs (LogMessage _ a _) (LogMessage _ b _)
+  | a < b = LT
+  | a > b = GT
+  | otherwise = EQ
