@@ -3,6 +3,7 @@ module LogAnalysis where
 
 import Log
 import Data.List ( sortBy )
+import qualified Data.List.Split as S
 
 ---------- Exercise 1 ----------------------------------
 readAsInt :: String -> Int
@@ -44,3 +45,9 @@ compareMsgs (LogMessage _ a _) (LogMessage _ b _)
 sortMessages :: [LogMessage] -> [LogMessage]
 sortMessages [] = []
 sortMessages x = sortBy compareMsgs x
+
+------------------Exercise 6----------------------------------------------------
+--whatWentWrong :: [LogMessage] -> [String]
+whatWentWrong x = map getInfo . last $ S.splitWhen helper $ sortMessages x
+  where helper (LogMessage _ a _) = a < 50 
+        getInfo (LogMessage _ _ b) = b
