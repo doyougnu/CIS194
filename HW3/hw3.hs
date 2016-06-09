@@ -63,3 +63,23 @@ messagesAbout str logs = filter onlyMatches logs
         onlyMatches (LogMessage (Error _) _ s) = isInfixOf lstr $ map toLower s
         onlyMatches (LogMessage Warning _ s) = isInfixOf lstr $ map toLower s
         lstr = map toLower str
+
+------------------Exercise 8----------------------------------------------------
+(|||) :: (LogMessage -> Bool) -> (LogMessage -> Bool) -> LogMessage -> Bool
+(|||) f g x = f x || g x
+
+isLargeError :: LogMessage -> Bool
+isLargeError (LogMessage (Error a) _ _) = a >= 50
+isLargeError LogMessage{} = False
+
+logHasString :: String -> LogMessage -> Bool
+logHasString str (LogMessage _ _ message) = lstr `isInfixOf` llog
+  where llog = map toLower message
+        lstr = map toLower str
+
+getInfo :: LogMessage -> String
+getInfo (LogMessage _ _ b) = b
+
+whatWentWrongEnhanced :: String -> [LogMessage] -> [String]
+whatWentWrongEnhanced s logs = map getInfo $ filter ((|||) logHasStringS isLargeError) logs
+  where logHasStringS = logHasString s
