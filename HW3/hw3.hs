@@ -2,7 +2,9 @@
 module LogAnalysis where
 
 import Log
-import Data.List ( sortBy )
+import Data.List ( sortBy
+                 , isInfixOf )
+import Data.Char
 
 ---------- Exercise 1 ----------------------------------
 readAsInt :: String -> Int
@@ -52,3 +54,12 @@ whatWentWrong x = map getInfo . filter helper $ sortMessages x
   where helper (LogMessage (Error a) _ _) = a >= 50
         helper LogMessage{} = False
         getInfo (LogMessage _ _ b) = b
+
+------------------Exercise 7----------------------------------------------------
+messagesAbout :: String -> [LogMessage] -> [LogMessage]
+messagesAbout _ [] = []
+messagesAbout str logs = filter onlyMatches logs
+  where onlyMatches (LogMessage Info _ _) = False
+        onlyMatches (LogMessage (Error _) _ s) = isInfixOf lstr $ map toLower s
+        onlyMatches (LogMessage Warning _ s) = isInfixOf lstr $ map toLower s
+        lstr = map toLower str
