@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE OverloadedStrings #-}
 {-# OPTIONS_GHC -Wall #-}
 module HW04 where
 
@@ -40,3 +42,12 @@ allCaps xs = all hasLeadingCaps xs
 dropTrailingWhitespace :: String -> String
 dropTrailingWhitespace [] = []
 dropTrailingWhitespace str = filter isAlpha str
+
+---------------------------- Exercise 16 ---------------------------------------
+firstChar :: String -> Char
+firstChar [] = ' '
+firstChar (x:_) = x
+
+firstLetters :: [String] -> [Char]
+firstLetters [] = []
+firstLetters xs = map firstChar xs
