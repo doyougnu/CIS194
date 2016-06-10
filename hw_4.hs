@@ -1,5 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE OverloadedStrings #-}
 {-# OPTIONS_GHC -Wall #-}
 module HW04 where
 
@@ -51,3 +52,16 @@ firstChar (x:_) = x
 firstLetters :: [String] -> [Char]
 firstLetters [] = []
 firstLetters xs = map firstChar xs
+
+---------------------------- Exercise 17 ---------------------------------------
+bookend :: String -> String
+bookend x = "[" ++ x ++ "]"
+
+endWithaComma :: [String] -> [String]
+endWithaComma [] = []
+endWithaComma (x:[]) = [x]
+endWithaComma (x:xs) = [x ++ ","] ++ endWithaComma xs
+
+asList :: [String] -> String
+asList [] = ""
+asList xs = bookend $ unwords $ endWithaComma xs
