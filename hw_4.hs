@@ -1,4 +1,4 @@
-data BST a = Leaf | Node (BST a) a (BST a)
+data BST a = Leaf | Node (BST a) a (BST a) deriving (Show)
  
 --skipping exercises 1-12
 ---------------------------- Exercise 13 ---------------------------------------
@@ -14,3 +14,4 @@ testBST x y
   | x < y = LT
   | x > y = GT
   | x == y = EQ
+
