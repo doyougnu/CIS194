@@ -35,3 +35,8 @@ allCaps xs = all hasLeadingCaps xs
   where
     hasLeadingCaps [] = False
     hasLeadingCaps (y:_) = isUpper y
+
+---------------------------- Exercise 15 ---------------------------------------
+dropTrailingWhitespace :: String -> String
+dropTrailingWhitespace [] = []
+dropTrailingWhitespace str = filter isAlpha str
