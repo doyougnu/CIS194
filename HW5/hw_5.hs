@@ -4,6 +4,7 @@ module HW05 where
 import Ring
 import Parser
 import Data.Maybe ( listToMaybe )
+import Data.Char
 
 ---------------------------------- Exercise 1 ----------------------------------
 --Don't know what this is asking me to dointParsingWorks :: Bool
@@ -32,4 +33,15 @@ instance Ring Mod5 where
   add (MKMod x) (MKMod y) = MKMod $ mod 5 (x + y)
   mul (MKMod x) (MKMod y) = MKMod $ mod 5 (x * y)
 
---Need to figure out the parser now
+safeHead :: [a] -> Maybe a
+safeHead [] = Nothing
+safeHead (x:_) = Just x
+
+safeTail :: [a] -> Maybe [a]
+safeTail [] = Nothing
+safeTail (_:xs) = Just xs
+
+instance Parsable Mod5 where
+  parse str
+    | Just s <- safeHead str = Just (MKMod (toInteger $ digitToInt s), drop 1 str)
+    | otherwise = Nothing
