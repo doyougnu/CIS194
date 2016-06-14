@@ -73,35 +73,77 @@ ringParsingWorks =
                                               (mul (MKMod 4) (MKMod 1))))
 
 ---------------------------------- Exercise 3 ----------------------------------
-data Mat2x2 = Mat2x2 MatRow MatRow deriving (Show, Eq)
+data Mat2x2 = Mat2x2 MatRow MatRow | Scalar Int deriving (Show, Eq)
 type MatRow = (Int, Int)
 
 instance Ring Mat2x2 where
   addId = Mat2x2 (0, 0) (0, 0)
+
   addInv (Mat2x2 (a, b) (c, d)) = Mat2x2 (negate a, negate b) (negate c, negate d)
-  mulId = Mat2x2 (1, 1) (1, 1)
+  addInv (Scalar z) = Scalar (negate z)
+
+  mulId = Mat2x2 (1, 0) (0, 1)
+
   add (Mat2x2 (a, b) (c, d)) (Mat2x2 (e, f) (g, h)) = Mat2x2 (p, q) (r, s)
     where
       p = a + e
       q = b + f
       r = c + g
       s = d + h
+  add (Scalar n) (Mat2x2 (a, b) (c, d)) = Mat2x2 (n * a, n * b) (n * c, n * d)
+  add (Mat2x2 (a, b) (c, d)) (Scalar n) = Mat2x2 (n * a, n * b) (n * c, n * d)
+  add (Scalar n) (Scalar m)  = Scalar (n * m)
+
   mul (Mat2x2 (a, b) (c, d)) (Mat2x2 (e, f) (g, h)) = Mat2x2 (p, q) (r, s)
     where
       p = a * e + b * g
       q = a * f + b * h
       r = c * e + d * g
-      s = c + f + d * h
+      s = c * f + d * h
+  mul (Scalar s) (Mat2x2 (a, b) (c, d)) = Mat2x2 (s * a, s * b) (s * c, s * d)
+  mul (Mat2x2 (a, b) (c, d)) (Scalar s)  = Mat2x2 (s * a, s * b) (s * c, s * d)
+  mul (Scalar s) (Scalar n)  = Scalar (s * n)
  
 -- this is so ugly there has to be a more idiomatic solution
-matParseHelper :: [Char] -> Maybe (Mat2x2, [Char])
-matParseHelper (a:b:c:d:rest) = Just ((Mat2x2 (digitToInt a, digitToInt b)
-  (digitToInt c , digitToInt d)), rest)
-matParseHelper _ = Nothing
+toMat2x2 :: [Char] -> Mat2x2
+toMat2x2 (a:b:c:d:_) = Mat2x2 (digitToInt a, digitToInt b)
+  (digitToInt c , digitToInt d)
+toMat2x2 _ = addId --this is a poor decision, should be a maybe monad
 
 instance Parsable Mat2x2 where
-  parse = matParseHelper . filter isNumber
+  parse str 
+    | any isSpace str == True = Just (toMat2x2 . filter isNumber . head $
+                                      parsed_str, unwords . tail $ parsed_str)
+    | isNumber . head $ str = Just (Scalar (digitToInt . head $ str), "")
+    | any isSpace str == False = Just (toMat2x2 $ filter isNumber str, "")  
+    | otherwise = Nothing
+    where parsed_str = words str 
 
 -- Now testing
 matRingParsingWorks :: Bool
-matRingParsingWorks = (parse "[[1,2][3,4]]" == Just (Mat2x2 (1,2) (3,4), ""))
+matRingParsingWorks =
+  --test parsing
+  (parse "[[1,2][3,4]]" == Just (Mat2x2 (1,2) (3,4), "")) &&
+  (parseRing "[[1,2][3,2]] * [[0,0][0,0]]" == Just (Mat2x2 (0,0) (0,0))) &&
+  (parseRing "[[1,2][3,2]] + [[1,1][1,1]]" == Just (Mat2x2 (2,3) (4,3))) &&
+  -- test Ring rules, starting with + associative
+  (add (add a b) c) == (add a (add b c)) &&
+  -- testing additive identity
+  ((add a addId) == a) &&
+  -- testing additive inverse
+  (add a (addInv a) == addId) &&
+  -- testing  + commutative
+  (add a b == add b a) &&
+  -- testing * associative
+  (mul (mul a b) c == mul a (mul b c)) &&
+  -- testing multicative identity
+  (mul a mulId == a) &&
+  -- testing * distributive property over +
+  (mul a (add b c) == add (mul a b) (mul a c)) &&
+  (mul (add b c) a == add (mul b a) (mul c a))
+  where
+    a = Mat2x2 (1, 1) (1, 1)
+    b = mul (Scalar 2) a
+    c = mul (Scalar 3) a
+
+  
