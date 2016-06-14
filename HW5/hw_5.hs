@@ -1,9 +1,10 @@
 {-# OPTIONS_GHC -Wall #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+
 module HW05 where
 
 import Ring
 import Parser
-import Data.Maybe ( listToMaybe )
 import Data.Char
 
 ---------------------------------- Exercise 1 ----------------------------------
@@ -14,6 +15,7 @@ intParsingWorks =
   (parse "3" == Just (3 :: Integer, "")) &&
   (parseRing "1 + 2 * 5" == Just (11 :: Integer)) &&
   (addId == (0 :: Integer))
+
 ---------------------------------- Exercise 2 ----------------------------------
 data Mod5 = MKMod Integer deriving (Show, Eq)
 
@@ -43,7 +45,8 @@ safeTail (_:xs) = Just xs
 
 instance Parsable Mod5 where
   parse str
-    | Just s <- safeHead str = Just (MKMod (toInteger $ digitToInt s), drop 1 str)
+    | Just s <- safeHead str = Just (MKMod (toInteger $ digitToInt s)
+                                    , drop 1 str)
     | otherwise = Nothing
 
 ringParsingWorks :: Bool
@@ -68,3 +71,37 @@ ringParsingWorks =
                                               (mul (MKMod 2) (MKMod 5)))) &&
   (mul (add (MKMod 2) (MKMod 4)) (MKMod 1) == (add (mul (MKMod 2) (MKMod 1))
                                               (mul (MKMod 4) (MKMod 1))))
+
+---------------------------------- Exercise 3 ----------------------------------
+data Mat2x2 = Mat2x2 MatRow MatRow deriving (Show, Eq)
+type MatRow = (Int, Int)
+
+instance Ring Mat2x2 where
+  addId = Mat2x2 (0, 0) (0, 0)
+  addInv (Mat2x2 (a, b) (c, d)) = Mat2x2 (negate a, negate b) (negate c, negate d)
+  mulId = Mat2x2 (1, 1) (1, 1)
+  add (Mat2x2 (a, b) (c, d)) (Mat2x2 (e, f) (g, h)) = Mat2x2 (p, q) (r, s)
+    where
+      p = a + e
+      q = b + f
+      r = c + g
+      s = d + h
+  mul (Mat2x2 (a, b) (c, d)) (Mat2x2 (e, f) (g, h)) = Mat2x2 (p, q) (r, s)
+    where
+      p = a * e + b * g
+      q = a * f + b * h
+      r = c * e + d * g
+      s = c + f + d * h
+ 
+-- this is so ugly there has to be a more idiomatic solution
+matParseHelper :: [Char] -> Maybe (Mat2x2, [Char])
+matParseHelper (a:b:c:d:rest) = Just ((Mat2x2 (digitToInt a, digitToInt b)
+  (digitToInt c , digitToInt d)), rest)
+matParseHelper _ = Nothing
+
+instance Parsable Mat2x2 where
+  parse = matParseHelper . filter isNumber
+
+-- Now testing
+matRingParsingWorks :: Bool
+matRingParsingWorks = (parse "[[1,2][3,4]]" == Just (Mat2x2 (1,2) (3,4), ""))
