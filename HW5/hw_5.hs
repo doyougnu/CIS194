@@ -1,5 +1,4 @@
 {-# OPTIONS_GHC -Wall #-}
-{-# LANGUAGE GeneralizedNewtypeDeriving #-}
 
 module HW05 where
 
@@ -195,3 +194,28 @@ ringBoolTests =
 -- all other ring rules hold so ???
 
 ---------------------------------- Exercise 5 ----------------------------------
+distribute :: RingExpr a -> RingExpr a
+distribute (Mul x (Add y z)) = Add (Mul x y) (Mul x z)
+distribute (Mul (Add x y) z) = Add (Mul x z) (Mul y z)
+distribute (AddInv x) = AddInv . distribute $ x
+distribute x = x 
+
+--tests
+testDistribute :: Bool
+testDistribute =
+  eval (distribute four) == MKMod 4 &&
+  eval (distribute add35) == MKMod 3 &&
+  -- now test right distribute
+  eval (distribute (Mul two add35)) == (add (mul (MKMod 2) (MKMod 3))
+                                              (mul (MKMod 2) (MKMod 5))) &&
+  -- now left distribute
+  eval (distribute (Mul add24 one)) == (add (mul (MKMod 2) (MKMod 1))
+                                              (mul (MKMod 4) (MKMod 1)))
+  where
+    add35 = Add three five
+    add24 = Add two four
+    four = Lit (MKMod 4)
+    five = Lit (MKMod 5)
+    three = Lit (MKMod 3)
+    two = Lit (MKMod 2)
+    one = Lit (MKMod 1)
