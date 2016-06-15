@@ -150,7 +150,7 @@ matRingParsingWorks =
 ---------------------------------- Exercise 4 ----------------------------------
 
 instance Ring Bool where
-  addId = True
+  addId = False
   addInv = not
   mulId = True
   add = xor
@@ -162,4 +162,36 @@ instance Parsable Bool where
 xor :: Bool -> Bool -> Bool
 xor x y = (x || y) && not (x && y)
 
--- now just need to test
+-- According to all documentation I could find the xor is the addition operator
+-- if thats true than a + addId = a and a + addInv a = addId
+ringBoolAddTests :: Bool
+ringBoolAddTests = (add True addId == True) && -- this works as expected
+  (add True (addInv True) == addId)  --this one evalues to True, not the addId
+--so are bools truly a ring?
+
+-- now the rest of the testing
+ringBoolTests :: Bool
+ringBoolTests =
+  (parse "True True False" == Just (True, " True False")) &&
+  (parseRing "True + True" == Just False) &&
+  (parseRing "True + False" == Just True) &&
+  (parseRing "True * False" == Just False) &&
+  --testing + associative
+  (add (add a b) c) == (add a (add b c)) &&
+  -- testing  + commutative
+  (add a b == add b a) &&
+  -- testing * associative
+  (mul (mul a b) c == mul a (mul b c)) &&
+  -- testing multicative identity
+  (mul a mulId == a) &&
+  -- testing * distributive property over +
+  (mul a (add b c) == add (mul a b) (mul a c)) &&
+  (mul (add b c) a == add (mul b a) (mul c a))
+  where
+    a = True
+    b = False
+    c = False
+
+-- all other ring rules hold so ???
+
+---------------------------------- Exercise 5 ----------------------------------
