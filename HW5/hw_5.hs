@@ -219,3 +219,11 @@ testDistribute =
     three = Lit (MKMod 3)
     two = Lit (MKMod 2)
     one = Lit (MKMod 1)
+
+---------------------------------- Exercise 6 ----------------------------------
+squashMulId :: (Eq a) => RingExpr a -> RingExpr a
+squashMulId (Mul x y)
+  | x == MulId = y
+  | y == MulId = x
+  | otherwise = (Mul x y)
+squashMulId x = x
