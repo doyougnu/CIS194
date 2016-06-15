@@ -1,13 +1,11 @@
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE OverloadedStrings #-}
 {-# OPTIONS_GHC -Wall #-}
 module HW04 where
 
 import Data.Char
 
 data BST a = Leaf | Node (BST a) a (BST a) deriving (Show)
- 
+
 --skipping exercises 1-12
 ---------------------------- Exercise 13 ---------------------------------------
 insertBST :: (a -> a -> Ordering) -> a -> BST a -> BST a

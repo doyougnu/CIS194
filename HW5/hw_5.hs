@@ -6,6 +6,7 @@ module HW05 where
 import Ring
 import Parser
 import Data.Char
+import Data.Maybe ( listToMaybe )
 
 ---------------------------------- Exercise 1 ----------------------------------
 --Don't know what this is asking me to dointParsingWorks :: Bool
@@ -146,4 +147,19 @@ matRingParsingWorks =
     b = mul (Scalar 2) a
     c = mul (Scalar 3) a
 
-  
+---------------------------------- Exercise 4 ----------------------------------
+
+instance Ring Bool where
+  addId = True
+  addInv = not
+  mulId = True
+  add = xor
+  mul = (&&)
+
+instance Parsable Bool where
+  parse = listToMaybe . reads
+
+xor :: Bool -> Bool -> Bool
+xor x y = (x || y) && not (x && y)
+
+-- now just need to test
