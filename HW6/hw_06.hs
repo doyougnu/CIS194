@@ -10,3 +10,5 @@ import qualified Data.ByteString.Lazy.Char8 as B
 import qualified Data.Text as T
 import qualified Data.Text.IO as T
 
+------------------------------  Exercise 1  ------------------------------------
+ynToBool :: Value -> Value
