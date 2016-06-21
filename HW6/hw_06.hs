@@ -12,15 +12,6 @@ import qualified Data.Text                  as T
 import qualified Data.Text.IO               as T
 
 ------------------------------  Exercise 1  ------------------------------------
--- read JSON as ByteString
--- parse ByteString using eitherDecode
-
-jsonFile :: FilePath
-jsonFile = "markets.json"
-
-getJSON :: IO B.ByteString
-getJSON = B.readFile jsonFile
-
 ynToBool :: Value -> Value
 ynToBool (String "Y") = Bool True
 ynToBool (String "N") = Bool False
@@ -45,3 +36,21 @@ instance FromJSON Market
 
 parseMarkets :: B.ByteString -> Either String [Market]
 parseMarkets = eitherDecode
+
+------------------------------  Exercise 4  ------------------------------------
+jsonFile :: FilePath
+jsonFile = "markets.json"
+
+getJSON :: IO B.ByteString
+getJSON = B.readFile jsonFile
+
+validateContents (Right value) = value
+validateContents (Left cause) = fail cause
+
+loadData :: IO [Market]
+loadData = do
+  filedata <- getJSON
+  let parseddata = parseMarkets filedata
+  fmap validateContents . return $ parseddata
+
+------------------------------  Exercise 5  ------------------------------------
