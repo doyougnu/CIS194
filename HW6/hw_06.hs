@@ -34,4 +34,14 @@ parseData :: B.ByteString -> Either String Value
 parseData filedata =
   ynToBool <$> eitherDecode filedata :: Either String Value
 
+------------------------------  Exercise 3  ------------------------------------
+data Market = Market { marketname :: T.Text
+                     , x :: Float
+                     , y :: Float
+                     , state :: T.Text
+                     } deriving (Show, Generic)
 
+instance FromJSON Market
+
+parseMarkets :: B.ByteString -> Either String [Market]
+parseMarkets = eitherDecode
