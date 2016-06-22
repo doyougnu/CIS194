@@ -123,3 +123,9 @@ allFound :: Searcher [Market]
 allFound str allmkts = search (:[]) str allmkts --didnt we make this one already?
 
 testallsearch = allFound "Village"
+
+------------------------------  Exercise 10  ------------------------------------
+numberFound :: Searcher Int
+numberFound str allmkts = length $ search (:[]) str allmkts 
+
+testNumFound = numberFound "Waikoloa"
