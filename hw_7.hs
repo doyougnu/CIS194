@@ -1,5 +1,7 @@
 module HW07 where
 
+import System.Random
+
 ------------------------------  Exercise 1  ------------------------------------
 fib :: Integer -> Integer
 fib 0 = 0
@@ -50,3 +52,9 @@ interleaveStreams (Cons x xs) ys = Cons x (interleaveStreams ys xs)
 
 ruler :: Stream Integer
 ruler = interleaveStreams (streamRepeat 0) (streamMap (+1) ruler)
+
+------------------------------  Exercise 7  ------------------------------------
+randomList :: (Random a, RandomGen g) => g -> [a]
+randomList = randoms
+
+------------------------------  Exercise 8  ------------------------------------
