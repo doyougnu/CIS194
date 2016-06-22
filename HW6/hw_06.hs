@@ -72,3 +72,7 @@ evens = OrdList [2, 4, 6]
 
 odds :: OrdList Integer
 odds = OrdList [1, 3, 5]
+
+combined :: OrdList Integer
+combined = evens <> odds
+------------------------------  Exercise 6  ------------------------------------
