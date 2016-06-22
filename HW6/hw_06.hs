@@ -76,3 +76,17 @@ odds = OrdList [1, 3, 5]
 combined :: OrdList Integer
 combined = evens <> odds
 ------------------------------  Exercise 6  ------------------------------------
+type Searcher m = T.Text -> [Market] -> m
+
+mkts :: IO [Market]
+mkts = loadData
+
+search :: Monoid m => (Market -> m) -> Searcher m
+search mkToMonoid str (x:rest)
+  | str `T.isInfixOf` name = mkToMonoid x <> search mkToMonoid str rest
+  | otherwise = search mkToMonoid str rest
+    where
+      name = marketname x
+search _ _ [] = mempty
+
+testsearch = search (:[]) ("Waikoloa" :: T.Text)
