@@ -60,3 +60,14 @@ randomList = randoms
 ------------------------------  Exercise 8  ------------------------------------
 randomInts :: Int -> [Int]
 randomInts n = take n $ randoms (mkStdGen 1729)
+
+------------------------------  Exercise 9  ------------------------------------
+minMax :: [Int] -> Maybe (Int, Int)
+minMax [] = Nothing
+minMax xs = Just (minimum xs, maximum xs)
+
+tonsOfInts :: [Int]
+tonsOfInts = randomInts 1000000
+
+main :: IO ()
+main = print . minMax $ tonsOfInts
