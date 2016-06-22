@@ -58,3 +58,5 @@ randomList :: (Random a, RandomGen g) => g -> [a]
 randomList = randoms
 
 ------------------------------  Exercise 8  ------------------------------------
+randomInts :: Int -> [Int]
+randomInts n = take n $ randoms (mkStdGen 1729)
