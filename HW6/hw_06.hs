@@ -75,6 +75,7 @@ odds = OrdList [1, 3, 5]
 
 combined :: OrdList Integer
 combined = evens <> odds
+
 ------------------------------  Exercise 6  ------------------------------------
 type Searcher m = T.Text -> [Market] -> m
 
@@ -90,3 +91,18 @@ search mkToMonoid str (x:rest)
 search _ _ [] = mempty
 
 testsearch = search (:[]) ("Waikoloa" :: T.Text)
+
+------------------------------  Exercise 7  ------------------------------------
+-- this just looks like good old function compostion
+compose2 :: (c -> d) -> (a -> b -> c) -> a -> b -> d
+compose2 = (.) . (.) --pointless style!!
+
+
+safeHead :: [a] -> Maybe a
+safeHead [] = Nothing
+safeHead (x:_) = Just x
+
+firstFound :: Searcher (Maybe Market)
+firstFound str mkts = safeHead $ search (:[]) str mkts
+
+testfirstsearch = firstFound "Village"
