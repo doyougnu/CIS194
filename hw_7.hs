@@ -1,6 +1,8 @@
+{-# LANGUAGE BangPatterns #-}
 module HW07 where
 
 import System.Random
+import Data.List
 
 ------------------------------  Exercise 1  ------------------------------------
 fib :: Integer -> Integer
@@ -66,8 +68,15 @@ minMax :: [Int] -> Maybe (Int, Int)
 minMax [] = Nothing
 minMax xs = Just (minimum xs, maximum xs)
 
+-- 207 total MB used
 tonsOfInts :: [Int]
 tonsOfInts = randomInts 1000000
 
+-- 1 total MB used
+minMax2 :: [Int] -> Maybe (Int, Int)
+minMax2 [] = Nothing
+minMax2 (x:xs) = Just $
+  foldl' (\(!a, !b) rest -> (min a rest, max b rest))(x, x) xs
+
 main :: IO ()
-main = print . minMax $ tonsOfInts
+main = print . minMax2 $ tonsOfInts
