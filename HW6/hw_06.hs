@@ -30,7 +30,7 @@ data Market = Market { marketname :: T.Text
                      , x :: Float
                      , y :: Float
                      , state :: T.Text
-                     } deriving (Show, Generic)
+                     } deriving (Show, Generic, Eq)
 
 instance FromJSON Market
 
@@ -129,3 +129,14 @@ numberFound :: Searcher Int
 numberFound str allmkts = length $ search (:[]) str allmkts 
 
 testNumFound = numberFound "Waikoloa"
+
+------------------------------  Exercise 11  ------------------------------------
+instance Ord Market where
+  compare a b = compare (y a) (y b) -- y selects the y coord from market, due to
+  -- record syntax
+
+orderedNtoS :: Searcher [Market]
+--orderedNtoS = getOrdList $ search (\x -> (OrdList [x]))
+orderedNtoS = getOrdList `compose2` search (\x -> (OrdList [x]))
+
+testordered = orderedNtoS "Village"
