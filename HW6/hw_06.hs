@@ -5,7 +5,7 @@ module HW06 where
 import           Data.Aeson
 import           Data.Monoid
 import           GHC.Generics
-import           Data.List ( isInfixOf )
+import           Data.List
 
 import qualified Data.ByteString.Lazy.Char8 as B
 import qualified Data.Text                  as T
@@ -44,6 +44,7 @@ jsonFile = "markets.json"
 getJSON :: IO B.ByteString
 getJSON = B.readFile jsonFile
 
+-- some clojure style middleware
 validateContents (Right value) = value
 validateContents (Left cause) = fail cause
 
@@ -54,3 +55,20 @@ loadData = do
   fmap validateContents . return $ parseddata
 
 ------------------------------  Exercise 5  ------------------------------------
+data OrdList a = OrdList { getOrdList :: [a] }
+                 deriving (Eq, Show)
+
+instance Ord a => Monoid (OrdList a) where
+  mempty = OrdList[]
+  mappend (OrdList xs) (OrdList ys) = OrdList (sort $ xs ++ ys)
+
+--this was my recursive solution, not sure why it didn't work
+--mappend (OrdList xss@(x:xs)) (OrdList yss@(y:ys))
+-- | x < y = OrdList (x : mappend xs yss)
+-- | otherwise = OrdList (y : mappend xss ys)
+
+evens :: OrdList Integer
+evens = OrdList [2, 4, 6]
+
+odds :: OrdList Integer
+odds = OrdList [1, 3, 5]
