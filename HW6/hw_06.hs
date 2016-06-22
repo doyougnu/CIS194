@@ -90,7 +90,7 @@ search mkToMonoid str (x:rest)
       name = marketname x
 search _ _ [] = mempty
 
-testsearch = search (:[]) ("Waikoloa" :: T.Text)
+testsearch = search (:[]) ("Village" :: T.Text)
 
 ------------------------------  Exercise 7  ------------------------------------
 -- this just looks like good old function compostion
@@ -103,6 +103,17 @@ safeHead [] = Nothing
 safeHead (x:_) = Just x
 
 firstFound :: Searcher (Maybe Market)
-firstFound str mkts = safeHead $ search (:[]) str mkts
+firstFound str allmkts = safeHead $ search (:[]) str allmkts
 
 testfirstsearch = firstFound "Village"
+
+------------------------------  Exercise 8  ------------------------------------
+safeLast :: [a] -> Maybe a
+safeLast [] = Nothing
+safeLast xs = safeHead . reverse $ xs
+
+lastFound :: Searcher (Maybe Market)
+-- I should create a function to make these functions... ran into type errors
+lastFound str allmkts = safeLast $ search (:[]) str allmkts
+
+testlastsearch = lastFound "Village"
