@@ -117,3 +117,9 @@ lastFound :: Searcher (Maybe Market)
 lastFound str allmkts = safeLast $ search (:[]) str allmkts
 
 testlastsearch = lastFound "Village"
+
+------------------------------  Exercise 9  ------------------------------------
+allFound :: Searcher [Market]
+allFound str allmkts = search (:[]) str allmkts --didnt we make this one already?
+
+testallsearch = allFound "Village"
