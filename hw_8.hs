@@ -1,3 +1,4 @@
+{-# LANGUAGE FlexibleContexts #-}
 module HW08 where
 
 import Text.Read
@@ -40,3 +41,20 @@ type DieRoll = Int
 
 dieRoll :: StdRand DieRoll
 dieRoll = getRandomR (1, 6)
+
+------------------------------  Exercise 4  ------------------------------------
+instance Monoid ArmyCounts where
+  mempty = ArmyCounts 0 0
+  (ArmyCounts a b) `mappend` (ArmyCounts c d) = ArmyCounts (a + c) (b + d)
+
+determineDelta :: [DieRoll] -> [DieRoll] -> [ArmyCounts]
+determineDelta attkrs dfndrs = zipWith delta
+  (sort_desc attkrs) (sort_desc dfndrs)
+  where
+    sort_desc = reverse . sort
+    delta x y = if x > y then attackersWin else defendersWin
+    attackersWin = ArmyCounts 0 (-1)
+    defendersWin = ArmyCounts (-1) 0
+
+battleResults :: [DieRoll] -> [DieRoll] -> ArmyCounts
+battleResults as ds = foldl mappend (ArmyCounts 0 0) $ determineDelta as ds
