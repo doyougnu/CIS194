@@ -26,3 +26,7 @@ go str = do
   good_digit <- isGoodDigit n
   rest <- stripPrefix (replicate good_digit 'a') (dropWhile isDigit str)
   go rest
+
+------------------------------  Exercise 2  ------------------------------------
+specialNumbers :: [Int]
+specialNumbers = [x | x <- [2..99], x `mod` 5 == 0, x `mod` 7 /= 0]
