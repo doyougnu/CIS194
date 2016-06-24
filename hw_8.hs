@@ -63,6 +63,9 @@ dieRolls :: Army -> [StdRand DieRoll]
 dieRolls 0 = []
 dieRolls x = replicate x dieRoll
 
+updateArmyCount :: Int -> Int -> ArmyCounts -> ArmyCounts
+updateArmyCount att def as = as `mappend` (ArmyCounts att def)
+
 negCheck :: ArmyCounts -> ArmyCounts
 negCheck army = updateArmyCount new_as new_ds army
   where
@@ -72,6 +75,8 @@ negCheck army = updateArmyCount new_as new_ds army
     new_ds
       | (defenders army) < 0 = (-1) * (defenders army)
       | otherwise = 0
+
+
 
 -- pretty straightforward but not that pretty
 battle :: ArmyCounts -> StdRand ArmyCounts
