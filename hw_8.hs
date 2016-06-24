@@ -4,8 +4,9 @@ import Text.Read
 import Data.Maybe
 import Data.Char ( isDigit )
 import Data.List
-import Control.Monad ( join )
+import Control.Monad ( join, guard )
 import Control.Monad.Random
+import Control.Applicative
 
 ------------------------------  Exercise 1  ------------------------------------
 isGoodDigit :: Int -> Maybe Int
@@ -92,4 +93,10 @@ battle x =
   dfn_rolls <- sequence . dieRolls $ dfndrs
   battle_results <- return (battleResults att_rolls dfn_rolls)
   return (negCheck $ mappend x battle_results)
-  
+
+------------------------------  Exercise 6  ------------------------------------
+-- Monads are pretty cool
+invade :: ArmyCounts -> StdRand ArmyCounts
+invade x
+  | (attackers x < 2) || (defenders x <= 0) = return x
+  | otherwise = battle x >>= invade
