@@ -1,10 +1,9 @@
-{-# LANGUAGE FlexibleContexts #-}
 module HW08 where
 
 import Text.Read
 import Data.Maybe
 import Data.Char ( isDigit )
-import Data.List 
+import Data.List
 import Control.Monad ( join )
 import Control.Monad.Random
 
@@ -58,3 +57,34 @@ determineDelta attkrs dfndrs = zipWith delta
 
 battleResults :: [DieRoll] -> [DieRoll] -> ArmyCounts
 battleResults as ds = foldl mappend (ArmyCounts 0 0) $ determineDelta as ds
+
+------------------------------  Exercise 5  ------------------------------------
+dieRolls :: Army -> [StdRand DieRoll]
+dieRolls 0 = []
+dieRolls x = replicate x dieRoll
+
+negCheck :: ArmyCounts -> ArmyCounts
+negCheck army = updateArmyCount new_as new_ds army
+  where
+    new_as
+      | (attackers army) < 0 = (-1) * (attackers army)
+      | otherwise = 0 --dont change current value
+    new_ds
+      | (defenders army) < 0 = (-1) * (defenders army)
+      | otherwise = 0
+
+-- pretty straightforward but not that pretty
+battle :: ArmyCounts -> StdRand ArmyCounts
+battle x =
+  do
+  let attkrs
+        | (attackers x) < 3 = attackers x
+        | (attackers x) == 3 = 2
+        | otherwise = 3
+
+  let dfndrs = if (defenders x > 2) then 2 else (defenders x)
+  att_rolls <- sequence . dieRolls $ attkrs
+  dfn_rolls <- sequence . dieRolls $ dfndrs
+  battle_results <- return (battleResults att_rolls dfn_rolls)
+  return (negCheck $ mappend x battle_results)
+  
