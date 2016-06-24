@@ -4,7 +4,7 @@ import Text.Read
 import Data.Maybe
 import Data.Char ( isDigit )
 import Data.List
-import Control.Monad ( join, guard )
+import Control.Monad 
 import Control.Monad.Random
 import Control.Applicative
 
@@ -100,3 +100,19 @@ invade :: ArmyCounts -> StdRand ArmyCounts
 invade x
   | (attackers x < 2) || (defenders x <= 0) = return x
   | otherwise = battle x >>= invade
+
+------------------------------  Exercise 7  ------------------------------------
+(//) :: Int -> Int -> Double
+a // b = fromIntegral a / fromIntegral b
+
+attackersWin :: ArmyCounts -> Int
+attackersWin x
+   | defenders x == 0 = 1
+   | otherwise = 0
+
+successProb :: ArmyCounts -> StdRand Double
+successProb army = do
+  battles <- sequence . replicate 1000 . invade $ army
+  battles_won <- return . sum $ map attackersWin battles
+  return (battles_won // 1000)
+
