@@ -97,3 +97,34 @@ mod_prop_ring1 =
 -- is passed to the function mkMod and gets `mod` 5, hence mkMod (MkMod 5) == 0
 mod_prop_ring2 =
   (prop3 :: Mod5 -> Bool) 
+
+------------------------------  Exercise 6  ------------------------------------
+isBSTBetweenFixed :: Ord a => Maybe a   -- ^ lower bound, if one exists
+             -> Maybe a                 -- ^ upper bound, if one exists
+             -> BST a                   -- ^ tree to test
+             -> Bool
+isBSTBetweenFixed _       _       Leaf = True
+isBSTBetweenFixed m_lower m_upper (Node left x right)
+  = isBSTBetweenFixed m_lower  (Just x) left  &&
+    isBSTBetweenFixed (Just x) m_upper  right &&
+    case m_lower of
+      Just lower -> lower <= x
+      Nothing    -> True
+    &&
+    case m_upper of
+      Just upper -> x <= upper
+      Nothing    -> True
+
+-- | Is this a valid BST?
+isBSTFixed :: Ord a => BST a -> Bool
+isBSTFixed = isBSTBetweenFixed Nothing Nothing
+
+prop_ordered' :: BST Int -> Bool
+prop_ordered' x = isBSTFixed x == is_sorted (getElements x)
+  where
+    is_sorted []             = True
+    is_sorted [_]            = True
+    is_sorted (x1 : x2 : xs) = x1 <= x2 && is_sorted (x2 : xs)
+
+test' :: IO ()
+test' = quickCheck prop_ordered
