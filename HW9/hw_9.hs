@@ -62,3 +62,17 @@ prop8 x y z = mul x (add y z) == add (mul x y) (mul x z)
 ---- testing right distributivity
 prop9 :: (Ring a, Eq a) => a -> a -> a -> Bool
 prop9 x y z = mul (add y z) x == add (mul y x) (mul z x)
+
+------------------------------  Exercise 4  ------------------------------------
+-- not pretty but verbose, code is data would be nice here
+prop_ring :: Property
+prop_ring =
+  (prop1 :: Mat2x2 -> Mat2x2 -> Mat2x2 -> Bool) .&&.
+  (prop2 :: Mat2x2 -> Mat2x2 -> Bool) .&&.
+  (prop3 :: Mat2x2 -> Bool) .&&.
+  (prop4 :: Mat2x2 -> Bool) .&&.
+  (prop5 :: Mat2x2 -> Mat2x2 -> Mat2x2 -> Bool) .&&.
+  (prop6 :: Mat2x2 -> Bool) .&&.
+  (prop7 :: Mat2x2 -> Bool) .&&.
+  (prop8 :: Mat2x2 -> Mat2x2 -> Mat2x2 -> Bool) .&&.
+  (prop9 :: Mat2x2 -> Mat2x2 -> Mat2x2 -> Bool)
