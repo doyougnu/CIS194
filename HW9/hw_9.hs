@@ -5,6 +5,7 @@ import Ring
 import Test.QuickCheck
 import Data.List
 import Control.Monad
+import System.Random
 
 ------------------------------  Exercise 1  ------------------------------------
 instance Arbitrary Mod5 where
@@ -128,3 +129,25 @@ prop_ordered' x = isBSTFixed x == is_sorted (getElements x)
 
 test' :: IO ()
 test' = quickCheck prop_ordered
+
+------------------------------  Exercise 7  ------------------------------------
+genBST :: System.Random.Random a => a -> a -> Gen (BST a)
+genBST lowbnd uppbnd = frequency [ (1, return Leaf)
+                                 , (2,
+                                    do
+                                       c <- choose (lowbnd, uppbnd)
+                                       leftTree <- genBST lowbnd c
+                                       rightTree <- genBST c uppbnd
+                                       return (Node leftTree c rightTree))] 
+
+-- had to comment out lines 50, 51 in BST.hs and add a Num instance
+-- every value in a -1...
+instance (Random a, Arbitrary a) => Arbitrary (BST a) where
+  arbitrary = do
+    uppbnd <- arbitrary
+    lowbnd <- arbitrary
+    genBST lowbnd uppbnd
+
+test :: IO ()
+test = do
+  sample (arbitrary :: Gen (BST Integer))

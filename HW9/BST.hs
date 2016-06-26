@@ -47,8 +47,8 @@ getElements (Node left x right) = getElements left ++ x : getElements right
 -- TESTING CODE. (Students aren't expected to understand this yet, but it
 -- might be interesting to read, anyway!)
 
-instance Arbitrary a => Arbitrary (BST a) where
-  arbitrary = sized mk_tree
+--instance Arbitrary a => Arbitrary (BST a) where
+  --arbitrary = sized mk_tree
 
 mk_tree :: Arbitrary a => Int -> Gen (BST a)
 mk_tree 0 = return Leaf
@@ -64,5 +64,5 @@ prop_ordered x = isBST compare x == is_sorted (getElements x)
     is_sorted [_]            = True
     is_sorted (x1 : x2 : xs) = x1 <= x2 && is_sorted (x2 : xs)
 
-test :: IO ()
-test = quickCheck prop_ordered
+--test :: IO ()
+--test = quickCheck prop_ordered
