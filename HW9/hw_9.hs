@@ -14,5 +14,13 @@ instance Arbitrary Mod5 where
     
 instance Arbitrary Mat2x2 where
   arbitrary = do
-    num <- arbitrary
+    num <- arbitrary --I wonder if this'll be the same number 4 times
     return (MkMat num num num num)
+
+------------------------------  Exercise 2  ------------------------------------
+-- no idea if this'll work...
+  shrink (MkMat a b c d) = [x] ++ shrink x
+    where f = head . shrinkIntegral 
+          x = MkMat (f a) (f b) (f c) (f d)
+
+------------------------------  Exercise 3  ------------------------------------
