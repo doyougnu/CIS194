@@ -76,3 +76,24 @@ prop_ring =
   (prop7 :: Mat2x2 -> Bool) .&&.
   (prop8 :: Mat2x2 -> Mat2x2 -> Mat2x2 -> Bool) .&&.
   (prop9 :: Mat2x2 -> Mat2x2 -> Mat2x2 -> Bool)
+
+------------------------------  Exercise 5  ------------------------------------
+-- Mod5 doesnt pass 1-4
+mod_prop_ring :: Property
+mod_prop_ring =
+  (prop1 :: Mod5 -> Mod5 -> Mod5 -> Bool) .&&.
+  (prop2 :: Mod5 -> Mod5 -> Bool) .&&.
+  (prop3 :: Mod5 -> Bool) .&&.
+  (prop4 :: Mod5 -> Bool)
+
+-- Mod5 passes 1 and 2
+mod_prop_ring1 :: Property
+mod_prop_ring1 =
+  (prop1 :: Mod5 -> Mod5 -> Mod5 -> Bool) .&&.
+  (prop2 :: Mod5 -> Mod5 -> Bool) 
+
+-- Mod5 fails prop 3 the additivie identity, due to add (MkMod 5) 0 == 0 not 5
+-- due to a logic error in mkMod where add (MkMod 5) 0 yields (MkMod 5) which
+-- is passed to the function mkMod and gets `mod` 5, hence mkMod (MkMod 5) == 0
+mod_prop_ring2 =
+  (prop3 :: Mod5 -> Bool) 
